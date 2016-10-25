@@ -13,6 +13,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.SequenceFile;
+import org.apache.hadoop.io.SequenceFile.CompressionType;
 import org.apache.hadoop.io.Text;
 
 public class MediaToSeq {
@@ -23,8 +24,8 @@ public class MediaToSeq {
         confHadoop.addResource(new Path("hdfs-site.xml"));   
         FileSystem fs = FileSystem.get(confHadoop);
 //        Path inPath = new Path("/mapin/76.jpg");
-        File f1 = new File("/home/libh/Downloads/1.mp4");
-        File f2 = new File("/home/libh/Downloads/2.mp4");
+        File f1 = new File("F:/hbase/1.mp4");
+        File f2 = new File("F:/hbase/2.mp4");
 //        File f1 = new File("/home/libh/Downloads/1.mp3");
 //        File f2 = new File("/home/libh/Downloads/2.mp3");
 //        File f1 = new File("/home/libh/Downloads/77.jpg");
@@ -39,6 +40,7 @@ public class MediaToSeq {
         BytesWritable value = new BytesWritable();
         SequenceFile.Writer writer = null;
         writer = SequenceFile.createWriter(fs, confHadoop, outPath, key.getClass(), value.getClass());
+        SequenceFile.Writer.compression(CompressionType.RECORD);
 		try {
 			for (File f : files) {
 				System.out.println("deal with file:"+f.getName());
@@ -46,8 +48,6 @@ public class MediaToSeq {
 				byte buffer[] = new byte[in.available()];
 				in.read(buffer);
 				BytesWritable valueByte = new BytesWritable(buffer);
-//				valueByte.setCapacity(buffer.length);
-//				valueByte.set(buffer, 0, buffer.length);
 				writer.append(new Text(f.getName()), valueByte);
 			}
         }catch (Exception e) {

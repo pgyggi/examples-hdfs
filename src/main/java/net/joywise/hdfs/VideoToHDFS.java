@@ -19,9 +19,8 @@ public class VideoToHDFS {
 		FileSystem hdfs = FileSystem.get(conf);
 		Path mkdir = new Path("/user/longge/radio");
 		hdfs.mkdirs(mkdir);
-//		File f1 = new File("E:\\迅雷下载\\釜山行.HD1280高清韩语特效中字.mp4");
-		File f1 = new File("D:\\Backup\\桌面\\读书分享\\习惯的力量——李宝环.pptx");
-		Path dst = new Path("/user/longge/radio" + "/" + f1.getName());
+		File f1 = new File("E:\\迅雷下载\\釜山行.HD1280高清韩语特效中字.mp4");
+		Path dst = new Path("/user/media/video" + "/" + f1.getName());
 		System.out.println(dst.toString());
 		hdfs.deleteOnExit(dst);
 		InputStream in = null;
